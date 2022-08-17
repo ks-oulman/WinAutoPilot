@@ -1,6 +1,6 @@
 # Windows PowerShell script to gather the hardware hash and create a CSV file
 
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
+Set-ExecutionPolicy -Scope CurrentUser Unrestricted
 
 # Creted a new foler in the C drive for the CSV file.
 
