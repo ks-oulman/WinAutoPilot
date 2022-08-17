@@ -11,11 +11,15 @@ exit $LASTEXITCODE
 
 New-Item -Type Directory -Path "C:\HWID"
 Write-Host -ForegroundColor Green "Creating HWID directory in C drive"
+Write-Host ""
+Write-Host ""
 
 # Creted a new foler in the C drive for the CSV file.
 
 Set-Location -Path "C:\HWID"
 Write-Host -ForegroundColor Green "Changing to new directory"
+Write-Host ""
+Write-Host ""
 
 $env:Path += "C:\Program Files\WindowsPowerShell\Scripts"
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned
