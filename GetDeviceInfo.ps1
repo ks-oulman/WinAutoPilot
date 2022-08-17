@@ -1,23 +1,28 @@
 # Windows PowerShell script to gather the hardware hash and create a CSV file
 
-Set-ExecutionPolicy -Scope CurrentUser Unrestricted
+$currentUser = New-Object Security.Principal.WindowsPrincipal $([Security.Principal.WindowsIdentity]::GetCurrent())
+$testadmin = $currentUser.IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
+if ($testadmin -eq $false) {
+Start-Process powershell.exe -Verb RunAs -ArgumentList ('-noprofile -noexit -file "{0}" -elevated' -f ($myinvocation.MyCommand.Definition))
+exit $LASTEXITCODE
+}
 
 # Creted a new foler in the C drive for the CSV file.
 
 New-Item -Type Directory -Path "C:\HWID"
-Write-Host -ForgroundColor Green "Creating HWID directory in C drive"
+Write-Host -ForegroundColor Green "Creating HWID directory in C drive"
 
 # Creted a new foler in the C drive for the CSV file.
 
 Set-Location -Path "C:\HWID"
-Write-Host -ForgroundColor Green "Changing to new directory"
+Write-Host -ForegroundColor Green "Changing to new directory"
 
 $env:Path += "C:\Program Files\WindowsPowerShell\Scripts"
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned
 
 # Install the script from online
 
-Write-Host -ForgroundColor Green "Getting the script from Microsoft"
+Write-Host -ForegroundColor Green "Getting the script from Microsoft"
 Install-Script -Name Get-WindowsAutoPilotInfo
 
 # Export the CSV file
