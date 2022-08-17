@@ -7,17 +7,17 @@ Start-Process powershell.exe -Verb RunAs -ArgumentList ('-noprofile -noexit -fil
 exit $LASTEXITCODE
 }
 
-# Creted a new foler in the C drive for the CSV file.
+# Creted a new folder in the C drive for the CSV file.
 
 New-Item -Type Directory -Path "C:\HWID"
-Write-Host -ForegroundColor Green "Creating HWID directory in C drive"
+Write-Host -ForegroundColor Green "Creating HWID folder in C drive"
 Write-Host ""
 Write-Host ""
 
-# Creted a new foler in the C drive for the CSV file.
+# Creted a new folder in the C drive for the CSV file.
 
 Set-Location -Path "C:\HWID"
-Write-Host -ForegroundColor Green "Changing to new directory"
+Write-Host -ForegroundColor Green "Changing to new folder"
 Write-Host ""
 Write-Host ""
 
@@ -26,7 +26,7 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned
 
 # Install the script from online
 
-Write-Host -ForegroundColor Green "Getting the script from Microsoft"
+Write-Host -ForegroundColor Cyan "Getting the script from Microsoft"
 Write-Host ""
 Write-Host ""
 Install-Script -Name Get-WindowsAutoPilotInfo
