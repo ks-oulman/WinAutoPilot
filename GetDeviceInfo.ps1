@@ -27,6 +27,8 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned
 # Install the script from online
 
 Write-Host -ForegroundColor Green "Getting the script from Microsoft"
+Write-Host ""
+Write-Host ""
 Install-Script -Name Get-WindowsAutoPilotInfo
 
 # Export the CSV file
