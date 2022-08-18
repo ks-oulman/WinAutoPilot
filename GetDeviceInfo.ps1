@@ -1,20 +1,40 @@
-# Windows PowerShell script to gather the hardware hash and create a CSV file
+#------------------------------------------------------------------------------
+# Forces the script to be run as admin.
+#------------------------------------------------------------------------------
+WRITE-HOST " "
 
-$currentUser = New-Object Security.Principal.WindowsPrincipal $([Security.Principal.WindowsIdentity]::GetCurrent())
-$testadmin = $currentUser.IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
-if ($testadmin -eq $false) {
-Start-Process powershell.exe -Verb RunAs -ArgumentList ('-noprofile -noexit -file "{0}" -elevated' -f ($myinvocation.MyCommand.Definition))
-exit $LASTEXITCODE
+#The below code is to force the script to run as adamin.
+If (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator"))
+{   
+#"No Administrative rights, it will display a popup window asking user for Admin rights"
+
+$arguments = "& '" + $myinvocation.mycommand.definition + "'"
+Start-Process "$psHome\powershell.exe" -Verb runAs -ArgumentList $arguments
+
+break
 }
 
-# Creted a new folder in the C drive for the CSV file.
+#------------------------------------------------------------------------------
+# Forces the script to run itself in its current directory.
+#------------------------------------------------------------------------------
+#The below code is to force the powershell prompt into the directory of the script. 
+$scriptpath = $MyInvocation.MyCommand.Path
+$dir = Split-Path $scriptpath
+WRITE-HOST "This Script's Directory Is $dir"
+set-location $dir
+
+#------------------------------------------------------------------------------
+# Create a new folder in the C drive for the CSV file.
+#------------------------------------------------------------------------------
 
 New-Item -Type Directory -Path "C:\HWID"
 Write-Host -ForegroundColor Green "Creating HWID folder in C drive"
 Write-Host ""
 Write-Host ""
 
-# Creted a new folder in the C drive for the CSV file.
+#------------------------------------------------------------------------------
+# Change to the new folder.
+#------------------------------------------------------------------------------
 
 Set-Location -Path "C:\HWID"
 Write-Host -ForegroundColor Green "Changing to new folder"
@@ -24,13 +44,17 @@ Write-Host ""
 $env:Path += "C:\Program Files\WindowsPowerShell\Scripts"
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned
 
-# Install the script from online
+#------------------------------------------------------------------------------
+# Install the script from online.
+#------------------------------------------------------------------------------
 
 Write-Host -ForegroundColor Cyan "Getting the script from Microsoft"
 Write-Host ""
 Write-Host ""
 Install-Script -Name Get-WindowsAutoPilotInfo
 
-# Export the CSV file
+#------------------------------------------------------------------------------
+# Export the CSV file.
+#------------------------------------------------------------------------------
 
 Get-WindowsAutoPilotInfo -OutputFile AutoPilotHWID.csv
