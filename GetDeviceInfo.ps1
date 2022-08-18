@@ -57,5 +57,5 @@ Install-Script -Name Get-WindowsAutoPilotInfo
 # Export the CSV file.
 #------------------------------------------------------------------------------
 
-$serial = (Get-CimInstance - CimSession (New-CimSession) -Class Win32_BIOS).SerialNumber
+$serial = (Get-CimInstance -CimSession (New-CimSession) -Class Win32_BIOS).SerialNumber
 Get-WindowsAutoPilotInfo -OutputFile "AutoPilotHWID-$serial.csv"
